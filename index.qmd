@@ -1,6 +1,7 @@
 ---
 title: "Patrick.L.Pascal"
 ---
+![Photo of Patrick](images/me.jpg){width=250px}
 
 This is a Quarto website.
 

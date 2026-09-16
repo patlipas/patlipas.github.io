@@ -3,6 +3,4 @@ title: "Patrick.L.Pascal"
 ---
 ![Photo of Patrick](images/me.jpg){width=250px}
 
-This is a Quarto website.
-
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+My name is Patrick L. Pascal. I was born in Montreal and currently live in Vancouver, British Columbia. I received my Bachelor of Commerce from UBC Sauder, specializing in Marketing and Business Technology Management with a minor in International Business. Before entering the program, I worked as a marketing manager in Richmond. I joined the UBC Master of Data Science program to deepen my understanding of data science and apply it to data-driven decision-making.

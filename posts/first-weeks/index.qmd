@@ -1,0 +1,13 @@
+---
+title: "My first weeks in MDS"
+author: "Patrick L. Pascal"
+date: 2026-09-15
+---
+
+My first weeks in the UBC Master of Data Science program have been an amazing experience. Returning to school after spending time in the workforce has reawakened my love of learning. However, adjusting to the program's fast-paced schedule has certainly been challenging.
+
+One thing that surprised me was the diversity of ages and professional experiences within the cohort. So far, I have been learning how to use tools and technologies such as Git, NumPy, R, and Quarto for data-science projects.
+
+Although the program has been challenging, I am excited to continue developing my programming and analytical skills. I am especially looking forward to learning how to apply data science to make data-driven marketing decisions.
+
+![A moment from my first weeks in MDS.](orientation.jpg)

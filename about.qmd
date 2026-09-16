@@ -2,4 +2,14 @@
 title: "About"
 ---
 
-About this site
+## Background
+
+I was born in Montreal and currently live in Vancouver, British Columbia. I completed a Bachelor of Commerce at UBC Sauder, specializing in Marketing and Business Technology Management with a minor in International Business. Before starting MDS, I worked as a marketing manager in Richmond.
+
+## Why data science
+
+My professional experience showed me the importance of using data to understand customers and make informed marketing decisions. I joined the UBC Master of Data Science program to strengthen my technical and analytical skills and apply data science to marketing analytics.
+
+## Outside data science
+
+In my free time, I enjoy reading manga and manhwa and playing sports, mostly rugby.

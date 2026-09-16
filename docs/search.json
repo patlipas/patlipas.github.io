@@ -1,16 +1,51 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Patrick.L.Pascal",
+    "objectID": "posts/first-weeks/index.html",
+    "href": "posts/first-weeks/index.html",
+    "title": "My first weeks in MDS",
     "section": "",
-    "text": "Photo of Patrick\n\n\nThis is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+    "text": "My first weeks in the UBC Master of Data Science program have been an amazing experience. Returning to school after spending time in the workforce has reawakened my love of learning. However, adjusting to the program’s fast-paced schedule has certainly been challenging.\nOne thing that surprised me was the diversity of ages and professional experiences within the cohort. So far, I have been learning how to use tools and technologies such as Git, NumPy, R, and Quarto for data-science projects.\nAlthough the program has been challenging, I am excited to continue developing my programming and analytical skills. I am especially looking forward to learning how to apply data science to make data-driven marketing decisions.\n\n\n\nA moment from my first weeks in MDS."
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
+    "section": "",
+    "text": "My first weeks in MDS\n\n\n\n\n\n\n\n\nSep 15, 2026\n\n\nPatrick L. Pascal\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "About this site"
+    "text": "I was born in Montreal and currently live in Vancouver, British Columbia. I completed a Bachelor of Commerce at UBC Sauder, specializing in Marketing and Business Technology Management with a minor in International Business. Before starting MDS, I worked as a marketing manager in Richmond."
+  },
+  {
+    "objectID": "about.html#background",
+    "href": "about.html#background",
+    "title": "About",
+    "section": "",
+    "text": "I was born in Montreal and currently live in Vancouver, British Columbia. I completed a Bachelor of Commerce at UBC Sauder, specializing in Marketing and Business Technology Management with a minor in International Business. Before starting MDS, I worked as a marketing manager in Richmond."
+  },
+  {
+    "objectID": "about.html#why-data-science",
+    "href": "about.html#why-data-science",
+    "title": "About",
+    "section": "Why data science",
+    "text": "Why data science\nMy professional experience showed me the importance of using data to understand customers and make informed marketing decisions. I joined the UBC Master of Data Science program to strengthen my technical and analytical skills and apply data science to marketing analytics."
+  },
+  {
+    "objectID": "about.html#outside-data-science",
+    "href": "about.html#outside-data-science",
+    "title": "About",
+    "section": "Outside data science",
+    "text": "Outside data science\nIn my free time, I enjoy reading manga and manhwa and playing sports, mostly rugby."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Patrick.L.Pascal",
+    "section": "",
+    "text": "Photo of Patrick\n\n\nMy name is Patrick L. Pascal. I was born in Montreal and currently live in Vancouver, British Columbia. I received my Bachelor of Commerce from UBC Sauder, specializing in Marketing and Business Technology Management with a minor in International Business. Before entering the program, I worked as a marketing manager in Richmond. I joined the UBC Master of Data Science program to deepen my understanding of data science and apply it to data-driven decision-making."
   }
 ]

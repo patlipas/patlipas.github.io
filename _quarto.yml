@@ -2,12 +2,15 @@ project:
   type: website
   output-dir: docs
 website:
-  title: "Patrick.L.Pascal"
+  title: "Patrick L. Pascal"
   navbar:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - href: about.qmd
+        text: About
+      - href: blog.qmd
+        text: Blog
 
 format:
   html:

@@ -1,0 +1,144 @@
+---
+title: "Fruit and Vegetable Consumption in Canada — R"
+subtitle: "A simple analysis using R"
+author: "Patrick Pascal"
+date: "2026-09-28"
+categories: [R, Nutrition, Canada]
+engine: knitr
+execute:
+  echo: true
+---
+
+## Research question
+
+How did the percentage of Canadians reporting fruit and vegetable
+consumption five or more times per day change between 2015 and 2021?
+
+This post repeats the same analysis from my Python post using R.
+
+## Data source
+
+The data come from Statistics Canada's
+[Canadian Indicator Framework, indicator 3.1.1](https://sdgcif-data-canada-oddcic-donnee.github.io/3-1-1/).
+
+The indicator measures reported eating frequency, not portion sizes
+or the total amount consumed.
+
+The data are available under the
+[Statistics Canada Open Licence](https://www.statcan.gc.ca/en/terms-conditions/open-licence).
+
+Adapted from Statistics Canada, Canadian Indicator Framework,
+indicator 3.1.1, reference years 2015–2021. This does not constitute
+an endorsement by Statistics Canada of this product.
+
+## R setup
+
+I load the packages needed to read, prepare, display, and plot the data.
+
+```{r}
+#| label: setup-r
+#| message: false
+
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(knitr)
+
+.libPaths()
+```
+
+## Load and inspect the data
+
+I read the same CSV used in the Python analysis and display the
+available observations.
+
+```{r}
+#| label: load-nutrition-data-r
+
+nutrition_raw <- read_csv(
+  "../../data/fruit_vegetable_canada.csv",
+  show_col_types = FALSE
+)
+
+knitr::kable(nutrition_raw)
+```
+
+## Prepare the data
+
+I keep the available observations from 2015 through 2021,
+select the year and percentage columns, and sort the data by year.
+
+```{r}
+#| label: prepare-nutrition-data-r
+
+nutrition <- nutrition_raw |>
+  filter(Year >= 2015, Year <= 2021) |>
+  select(Year, Percentage = Value) |>
+  arrange(Year)
+
+knitr::kable(nutrition)
+```
+
+The prepared data contain five observations. There are no observations
+for 2018 or 2019 in the downloaded dataset, so those years remain missing.
+
+## Calculate the change
+
+I compare the first and last percentages in the prepared data.
+
+```{r}
+#| label: calculate-nutrition-change-r
+
+first_percentage <- nutrition$Percentage[1]
+last_percentage <- nutrition$Percentage[nrow(nutrition)]
+
+change_pp <- last_percentage - first_percentage
+
+cat(sprintf("2015: %.1f%%\n", first_percentage))
+cat(sprintf("2021: %.1f%%\n", last_percentage))
+cat(sprintf("Change: %.1f percentage points\n", change_pp))
+```
+
+The reported percentage decreased from 31.5% in 2015 to 21.8% in 2021,
+a decrease of 9.7 percentage points.
+
+This calculation describes the difference between the published
+estimates. It does not explain why the estimates changed.
+
+## Visualize the trend
+
+Each point represents an available published observation.
+The connecting line helps show the pattern but does not estimate
+the missing years.
+
+```{r}
+#| label: fig-nutrition-r
+#| fig-cap: "Percentage reporting fruit and vegetable consumption five or more times per day, Canada (excluding territories), available years from 2015 to 2021. Source: Statistics Canada."
+#| fig-alt: "Five observations declining from 31.5 percent in 2015 to 21.8 percent in 2021, with no observations for 2018 or 2019."
+
+ggplot(nutrition, aes(x = Year, y = Percentage)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = 2015:2021) +
+  scale_y_continuous(limits = c(0, 40)) +
+  labs(
+    title = "Fruit and vegetable consumption in Canada",
+    x = "Year",
+    y = "Reported percentage (%)"
+  ) +
+  theme_minimal()
+```
+
+## Conclusion
+
+The published percentage reporting fruit and vegetable consumption
+five or more times per day decreased from 31.5% in 2015 to 21.8%
+in 2021, a decline of 9.7 percentage points.
+
+The percentage was lower at each successive available observation.
+However, the dataset has no observations for 2018 or 2019, so it does
+not show what happened in every individual year.
+
+This is a descriptive comparison of published estimates. The indicator
+measures reported eating frequency rather than overall diet quality,
+and this analysis does not establish why the estimates changed.

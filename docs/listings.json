@@ -3,6 +3,7 @@
     "listing": "/blog.html",
     "items": [
       "/posts/nutrition-python/index.html",
+      "/posts/nutrition-r/index.html",
       "/posts/first-weeks/index.html"
     ]
   }

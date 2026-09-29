@@ -1,0 +1,157 @@
+---
+title: "Fruit and Vegetable Consumption in Canada"
+subtitle: "A simple analysis using Python"
+author: "Patrick Pascal"
+date: "2026-09-28"
+categories: [Python, Nutrition, Canada]
+jupyter: python3
+execute:
+  echo: true
+---
+
+## Research question
+
+How did the percentage of Canadians reporting fruit and vegetable
+consumption five or more times per day change between 2015 and 2021?
+
+## Data source
+
+The data come from Statistics Canada's
+[Canadian Indicator Framework, indicator 3.1.1](https://sdgcif-data-canada-oddcic-donnee.github.io/3-1-1/).
+
+This indicator measures how frequently people report eating fruits
+and vegetables, not the number of servings or the amount consumed.
+
+The data are available under the
+[Statistics Canada Open Licence](https://www.statcan.gc.ca/en/terms-conditions/open-licence).
+
+Adapted from Statistics Canada, Canadian Indicator Framework,
+indicator 3.1.1, reference years 2015–2021. This does not constitute
+an endorsement by Statistics Canada of this product.
+
+## Python setup
+
+I load the packages for the analysis and display the Python executable
+to check which environment runs this post.
+
+```{python}
+#| label: setup-python
+#| warning: false
+
+import sys
+import pandas as pd
+import matplotlib.pyplot as plt
+
+print(sys.executable)
+```
+
+## Load and inspect the data
+
+I read the downloaded CSV and display it to check the column names
+and available years before selecting the observations for this analysis.
+
+```{python}
+#| label: load-nutrition-data
+
+nutrition_raw = pd.read_csv("../../data/fruit_vegetable_canada.csv")
+
+nutrition_raw
+```
+## Prepare the data
+
+I keep the available observations from 2015 through 2021 to match
+my research question. I select the year and percentage, give the
+percentage column a clearer name, and sort the observations by year.
+
+```{python}
+#| label: prepare-nutrition-data
+#| echo: true
+
+selected_years = (nutrition_raw["Year"] >= 2015) & (nutrition_raw["Year"] <= 2021)
+
+nutrition = nutrition_raw.loc[selected_years, ["Year", "Value"]].copy()
+
+nutrition = nutrition.rename(columns={"Value": "Percentage"})
+
+nutrition = nutrition.sort_values("Year")
+
+nutrition
+```
+
+The prepared data contain five observations. The downloaded dataset
+has no observations for 2018 or 2019, so I leave those years missing
+rather than treating them as zero. The empty GeoCode column is not
+needed for this analysis.
+
+## Calculate the change
+
+I compare the first and last percentages in the prepared data.
+Subtracting the 2015 percentage from the 2021 percentage gives
+the change in percentage points.
+
+```{python}
+#| label: calculate-nutrition-change
+#| echo: true
+
+first_percentage = nutrition["Percentage"].iloc[0]
+last_percentage = nutrition["Percentage"].iloc[-1]
+
+change_pp = last_percentage - first_percentage
+
+print(f"2015: {first_percentage:.1f}%")
+print(f"2021: {last_percentage:.1f}%")
+print(f"Change: {change_pp:.1f} percentage points")
+```
+
+The reported percentage decreased from 31.5% in 2015 to 21.8%
+in 2021. This is a decrease of 9.7 percentage points, not a
+9.7% relative decrease.
+
+This calculation describes the difference between the published
+estimates. It does not explain why the estimates changed.
+## Visualize the trend
+
+I plot the percentage for each available year. Each dot represents
+a published observation. The connecting lines help show the pattern,
+but they do not provide estimates for the missing years.
+
+```{python}
+#| label: fig-nutrition-python
+#| fig-cap: "Percentage reporting fruit and vegetable consumption five or more times per day, Canada (excluding territories), available years from 2015 to 2021. Source: Statistics Canada."
+#| fig-alt: "Five observations declining from 31.5% in 2015 to 21.8% in 2021, with no observations for 2018 or 2019."
+#| echo: true
+
+plt.figure(figsize=(7, 4))
+
+plt.plot(
+    nutrition["Year"],
+    nutrition["Percentage"],
+    marker="o"
+)
+
+plt.title("Fruit and vegetable consumption in Canada")
+plt.xlabel("Year")
+plt.ylabel("Reported percentage (%)")
+
+plt.xticks(range(2015, 2022))
+plt.ylim(0, 40)
+
+plt.grid(axis="y", alpha=0.3)
+plt.tight_layout()
+plt.show()
+```
+
+## Conclusion
+
+The published percentage reporting fruit and vegetable consumption
+five or more times per day decreased from 31.5% in 2015 to 21.8%
+in 2021, a decline of 9.7 percentage points.
+
+The percentage was lower at each successive observation in this
+dataset. However, observations are missing for 2018 and 2019,
+so the data do not show what happened in every individual year.
+
+This is a descriptive comparison of published estimates, not a test
+of statistical significance. The indicator measures reported eating
+frequency rather than portion sizes or overall diet quality, and
+this analysis does not establish why the estimates changed.

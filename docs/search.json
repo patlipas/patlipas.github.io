@@ -1,0 +1,170 @@
+[
+  {
+    "objectID": "posts/nutrition-r/index.html",
+    "href": "posts/nutrition-r/index.html",
+    "title": "Fruit and Vegetable Consumption in Canada — R",
+    "section": "",
+    "text": "How did the percentage of Canadians reporting fruit and vegetable consumption five or more times per day change between 2015 and 2021?\nThis post repeats the same analysis from my Python post using R."
+  },
+  {
+    "objectID": "posts/nutrition-r/index.html#research-question",
+    "href": "posts/nutrition-r/index.html#research-question",
+    "title": "Fruit and Vegetable Consumption in Canada — R",
+    "section": "",
+    "text": "How did the percentage of Canadians reporting fruit and vegetable consumption five or more times per day change between 2015 and 2021?\nThis post repeats the same analysis from my Python post using R."
+  },
+  {
+    "objectID": "posts/nutrition-r/index.html#data-source",
+    "href": "posts/nutrition-r/index.html#data-source",
+    "title": "Fruit and Vegetable Consumption in Canada — R",
+    "section": "Data source",
+    "text": "Data source\nThe data come from Statistics Canada’s Canadian Indicator Framework, indicator 3.1.1.\nThe indicator measures reported eating frequency, not portion sizes or the total amount consumed.\nThe data are available under the Statistics Canada Open Licence.\nAdapted from Statistics Canada, Canadian Indicator Framework, indicator 3.1.1, reference years 2015–2021. This does not constitute an endorsement by Statistics Canada of this product."
+  },
+  {
+    "objectID": "posts/nutrition-r/index.html#r-setup",
+    "href": "posts/nutrition-r/index.html#r-setup",
+    "title": "Fruit and Vegetable Consumption in Canada — R",
+    "section": "R setup",
+    "text": "R setup\nI load the packages needed to read, prepare, display, and plot the data.\n\nlibrary(readr)\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(knitr)\n\n.libPaths()\n\n[1] \"C:/Users/patrick/Desktop/MDS/521/website/renv/library/windows/R-4.6/x86_64-w64-mingw32\"         \n[2] \"C:/Users/patrick/AppData/Local/R/cache/R/renv/sandbox/windows/R-4.6/x86_64-w64-mingw32/862924a9\""
+  },
+  {
+    "objectID": "posts/nutrition-r/index.html#load-and-inspect-the-data",
+    "href": "posts/nutrition-r/index.html#load-and-inspect-the-data",
+    "title": "Fruit and Vegetable Consumption in Canada — R",
+    "section": "Load and inspect the data",
+    "text": "Load and inspect the data\nI read the same CSV used in the Python analysis and display the available observations.\n\nnutrition_raw &lt;- read_csv(\n  \"../../data/fruit_vegetable_canada.csv\",\n  show_col_types = FALSE\n)\n\nknitr::kable(nutrition_raw)\n\n\n\n\nYear\nValue\nGeoCode\n\n\n\n\n2015\n31.5\nNA\n\n\n2016\n30.1\nNA\n\n\n2017\n28.7\nNA\n\n\n2020\n25.4\nNA\n\n\n2021\n21.8\nNA\n\n\n2023\n21.6\nNA"
+  },
+  {
+    "objectID": "posts/nutrition-r/index.html#prepare-the-data",
+    "href": "posts/nutrition-r/index.html#prepare-the-data",
+    "title": "Fruit and Vegetable Consumption in Canada — R",
+    "section": "Prepare the data",
+    "text": "Prepare the data\nI keep the available observations from 2015 through 2021, select the year and percentage columns, and sort the data by year.\n\nnutrition &lt;- nutrition_raw |&gt;\n  filter(Year &gt;= 2015, Year &lt;= 2021) |&gt;\n  select(Year, Percentage = Value) |&gt;\n  arrange(Year)\n\nknitr::kable(nutrition)\n\n\n\n\nYear\nPercentage\n\n\n\n\n2015\n31.5\n\n\n2016\n30.1\n\n\n2017\n28.7\n\n\n2020\n25.4\n\n\n2021\n21.8\n\n\n\n\n\nThe prepared data contain five observations. There are no observations for 2018 or 2019 in the downloaded dataset, so those years remain missing."
+  },
+  {
+    "objectID": "posts/nutrition-r/index.html#calculate-the-change",
+    "href": "posts/nutrition-r/index.html#calculate-the-change",
+    "title": "Fruit and Vegetable Consumption in Canada — R",
+    "section": "Calculate the change",
+    "text": "Calculate the change\nI compare the first and last percentages in the prepared data.\n\nfirst_percentage &lt;- nutrition$Percentage[1]\nlast_percentage &lt;- nutrition$Percentage[nrow(nutrition)]\n\nchange_pp &lt;- last_percentage - first_percentage\n\ncat(sprintf(\"2015: %.1f%%\\n\", first_percentage))\n\n2015: 31.5%\n\ncat(sprintf(\"2021: %.1f%%\\n\", last_percentage))\n\n2021: 21.8%\n\ncat(sprintf(\"Change: %.1f percentage points\\n\", change_pp))\n\nChange: -9.7 percentage points\n\n\nThe reported percentage decreased from 31.5% in 2015 to 21.8% in 2021, a decrease of 9.7 percentage points.\nThis calculation describes the difference between the published estimates. It does not explain why the estimates changed."
+  },
+  {
+    "objectID": "posts/nutrition-r/index.html#visualize-the-trend",
+    "href": "posts/nutrition-r/index.html#visualize-the-trend",
+    "title": "Fruit and Vegetable Consumption in Canada — R",
+    "section": "Visualize the trend",
+    "text": "Visualize the trend\nEach point represents an available published observation. The connecting line helps show the pattern but does not estimate the missing years.\n\nggplot(nutrition, aes(x = Year, y = Percentage)) +\n  geom_line() +\n  geom_point() +\n  scale_x_continuous(breaks = 2015:2021) +\n  scale_y_continuous(limits = c(0, 40)) +\n  labs(\n    title = \"Fruit and vegetable consumption in Canada\",\n    x = \"Year\",\n    y = \"Reported percentage (%)\"\n  ) +\n  theme_minimal()\n\n\n\n\n\n\n\nFigure 1: Percentage reporting fruit and vegetable consumption five or more times per day, Canada (excluding territories), available years from 2015 to 2021. Source: Statistics Canada."
+  },
+  {
+    "objectID": "posts/nutrition-r/index.html#conclusion",
+    "href": "posts/nutrition-r/index.html#conclusion",
+    "title": "Fruit and Vegetable Consumption in Canada — R",
+    "section": "Conclusion",
+    "text": "Conclusion\nThe published percentage reporting fruit and vegetable consumption five or more times per day decreased from 31.5% in 2015 to 21.8% in 2021, a decline of 9.7 percentage points.\nThe percentage was lower at each successive available observation. However, the dataset has no observations for 2018 or 2019, so it does not show what happened in every individual year.\nThis is a descriptive comparison of published estimates. The indicator measures reported eating frequency rather than overall diet quality, and this analysis does not establish why the estimates changed."
+  },
+  {
+    "objectID": "posts/first-weeks/index.html",
+    "href": "posts/first-weeks/index.html",
+    "title": "My first weeks in MDS",
+    "section": "",
+    "text": "My first weeks in the UBC Master of Data Science program have been an amazing experience. Returning to school after spending time in the workforce has reawakened my love of learning. However, adjusting to the program’s fast-paced schedule has certainly been challenging.\nOne thing that surprised me was the diversity of ages and professional experiences within the cohort. So far, I have been learning how to use tools and technologies such as Git, NumPy, R, and Quarto for data-science projects.\nAlthough the program has been challenging, I am excited to continue developing my programming and analytical skills. I am especially looking forward to learning how to apply data science to make data-driven marketing decisions.\n\n\n\nA moment from my first weeks in MDS."
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
+    "section": "",
+    "text": "Fruit and Vegetable Consumption in Canada\n\n\nA simple analysis using Python\n\n\n\n\n\n\n\n\nSep 28, 2026\n\n\nPatrick Pascal\n\n\n\n\n\n\n\n\n\n\n\n\nFruit and Vegetable Consumption in Canada — R\n\n\nA simple analysis using R\n\n\n\n\n\n\n\n\nSep 28, 2026\n\n\nPatrick Pascal\n\n\n\n\n\n\n\n\n\n\n\n\nMy first weeks in MDS\n\n\n\n\n\n\n\n\n\n\n\nSep 15, 2026\n\n\nPatrick L. Pascal\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "I was born in Montreal and currently live in Vancouver, British Columbia. I completed a Bachelor of Commerce at UBC Sauder, specializing in Marketing and Business Technology Management with a minor in International Business. Before starting MDS, I worked as a marketing manager in Richmond."
+  },
+  {
+    "objectID": "about.html#background",
+    "href": "about.html#background",
+    "title": "About",
+    "section": "",
+    "text": "I was born in Montreal and currently live in Vancouver, British Columbia. I completed a Bachelor of Commerce at UBC Sauder, specializing in Marketing and Business Technology Management with a minor in International Business. Before starting MDS, I worked as a marketing manager in Richmond."
+  },
+  {
+    "objectID": "about.html#why-data-science",
+    "href": "about.html#why-data-science",
+    "title": "About",
+    "section": "Why data science",
+    "text": "Why data science\nMy professional experience showed me the importance of using data to understand customers and make informed marketing decisions. I joined the UBC Master of Data Science program to strengthen my technical and analytical skills and apply data science to marketing analytics."
+  },
+  {
+    "objectID": "about.html#outside-data-science",
+    "href": "about.html#outside-data-science",
+    "title": "About",
+    "section": "Outside data science",
+    "text": "Outside data science\nIn my free time, I enjoy reading manga and manhwa and playing sports, mostly rugby."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Patrick.L.Pascal",
+    "section": "",
+    "text": "Photo of Patrick\n\n\nMy name is Patrick L. Pascal. I was born in Montreal and currently live in Vancouver, British Columbia. I received my Bachelor of Commerce from UBC Sauder, specializing in Marketing and Business Technology Management with a minor in International Business. Before entering the program, I worked as a marketing manager in Richmond. I joined the UBC Master of Data Science program to deepen my understanding of data science and apply it to data-driven decision-making."
+  },
+  {
+    "objectID": "posts/nutrition-python/index.html",
+    "href": "posts/nutrition-python/index.html",
+    "title": "Fruit and Vegetable Consumption in Canada",
+    "section": "",
+    "text": "How did the percentage of Canadians reporting fruit and vegetable consumption five or more times per day change between 2015 and 2021?"
+  },
+  {
+    "objectID": "posts/nutrition-python/index.html#research-question",
+    "href": "posts/nutrition-python/index.html#research-question",
+    "title": "Fruit and Vegetable Consumption in Canada",
+    "section": "",
+    "text": "How did the percentage of Canadians reporting fruit and vegetable consumption five or more times per day change between 2015 and 2021?"
+  },
+  {
+    "objectID": "posts/nutrition-python/index.html#data-source",
+    "href": "posts/nutrition-python/index.html#data-source",
+    "title": "Fruit and Vegetable Consumption in Canada",
+    "section": "Data source",
+    "text": "Data source\nThe data come from Statistics Canada’s Canadian Indicator Framework, indicator 3.1.1.\nThis indicator measures how frequently people report eating fruits and vegetables, not the number of servings or the amount consumed.\nThe data are available under the Statistics Canada Open Licence.\nAdapted from Statistics Canada, Canadian Indicator Framework, indicator 3.1.1, reference years 2015–2021. This does not constitute an endorsement by Statistics Canada of this product."
+  },
+  {
+    "objectID": "posts/nutrition-python/index.html#python-setup",
+    "href": "posts/nutrition-python/index.html#python-setup",
+    "title": "Fruit and Vegetable Consumption in Canada",
+    "section": "Python setup",
+    "text": "Python setup\nI load the packages for the analysis and display the Python executable to check which environment runs this post.\n\nimport sys\nimport pandas as pd\nimport matplotlib.pyplot as plt\n\nprint(sys.executable)\n\nC:\\Users\\patrick\\Desktop\\MDS\\521\\website\\.venv\\Scripts\\python.exe"
+  },
+  {
+    "objectID": "posts/nutrition-python/index.html#load-and-inspect-the-data",
+    "href": "posts/nutrition-python/index.html#load-and-inspect-the-data",
+    "title": "Fruit and Vegetable Consumption in Canada",
+    "section": "Load and inspect the data",
+    "text": "Load and inspect the data\nI read the downloaded CSV and display it to check the column names and available years before selecting the observations for this analysis.\n\nnutrition_raw = pd.read_csv(\"../../data/fruit_vegetable_canada.csv\")\n\nnutrition_raw\n\n\n\n\n\n\n\n\nYear\nValue\nGeoCode\n\n\n\n\n0\n2015\n31.5\nNaN\n\n\n1\n2016\n30.1\nNaN\n\n\n2\n2017\n28.7\nNaN\n\n\n3\n2020\n25.4\nNaN\n\n\n4\n2021\n21.8\nNaN\n\n\n5\n2023\n21.6\nNaN"
+  },
+  {
+    "objectID": "posts/nutrition-python/index.html#prepare-the-data",
+    "href": "posts/nutrition-python/index.html#prepare-the-data",
+    "title": "Fruit and Vegetable Consumption in Canada",
+    "section": "Prepare the data",
+    "text": "Prepare the data\nI keep the available observations from 2015 through 2021 to match my research question. I select the year and percentage, give the percentage column a clearer name, and sort the observations by year.\n\nselected_years = (nutrition_raw[\"Year\"] &gt;= 2015) & (nutrition_raw[\"Year\"] &lt;= 2021)\n\nnutrition = nutrition_raw.loc[selected_years, [\"Year\", \"Value\"]].copy()\n\nnutrition = nutrition.rename(columns={\"Value\": \"Percentage\"})\n\nnutrition = nutrition.sort_values(\"Year\")\n\nnutrition\n\n\n\n\n\n\n\n\nYear\nPercentage\n\n\n\n\n0\n2015\n31.5\n\n\n1\n2016\n30.1\n\n\n2\n2017\n28.7\n\n\n3\n2020\n25.4\n\n\n4\n2021\n21.8\n\n\n\n\n\n\n\nThe prepared data contain five observations. The downloaded dataset has no observations for 2018 or 2019, so I leave those years missing rather than treating them as zero. The empty GeoCode column is not needed for this analysis."
+  },
+  {
+    "objectID": "posts/nutrition-python/index.html#calculate-the-change",
+    "href": "posts/nutrition-python/index.html#calculate-the-change",
+    "title": "Fruit and Vegetable Consumption in Canada",
+    "section": "Calculate the change",
+    "text": "Calculate the change\nI compare the first and last percentages in the prepared data. Subtracting the 2015 percentage from the 2021 percentage gives the change in percentage points.\n\nfirst_percentage = nutrition[\"Percentage\"].iloc[0]\nlast_percentage = nutrition[\"Percentage\"].iloc[-1]\n\nchange_pp = last_percentage - first_percentage\n\nprint(f\"2015: {first_percentage:.1f}%\")\nprint(f\"2021: {last_percentage:.1f}%\")\nprint(f\"Change: {change_pp:.1f} percentage points\")\n\n2015: 31.5%\n2021: 21.8%\nChange: -9.7 percentage points\n\n\nThe reported percentage decreased from 31.5% in 2015 to 21.8% in 2021. This is a decrease of 9.7 percentage points, not a 9.7% relative decrease.\nThis calculation describes the difference between the published estimates. It does not explain why the estimates changed. ## Visualize the trend\nI plot the percentage for each available year. Each dot represents a published observation. The connecting lines help show the pattern, but they do not provide estimates for the missing years.\n\nplt.figure(figsize=(7, 4))\n\nplt.plot(\n    nutrition[\"Year\"],\n    nutrition[\"Percentage\"],\n    marker=\"o\"\n)\n\nplt.title(\"Fruit and vegetable consumption in Canada\")\nplt.xlabel(\"Year\")\nplt.ylabel(\"Reported percentage (%)\")\n\nplt.xticks(range(2015, 2022))\nplt.ylim(0, 40)\n\nplt.grid(axis=\"y\", alpha=0.3)\nplt.tight_layout()\nplt.show()\n\n\n\n\n\n\n\nFigure 1: Percentage reporting fruit and vegetable consumption five or more times per day, Canada (excluding territories), available years from 2015 to 2021. Source: Statistics Canada."
+  },
+  {
+    "objectID": "posts/nutrition-python/index.html#conclusion",
+    "href": "posts/nutrition-python/index.html#conclusion",
+    "title": "Fruit and Vegetable Consumption in Canada",
+    "section": "Conclusion",
+    "text": "Conclusion\nThe published percentage reporting fruit and vegetable consumption five or more times per day decreased from 31.5% in 2015 to 21.8% in 2021, a decline of 9.7 percentage points.\nThe percentage was lower at each successive observation in this dataset. However, observations are missing for 2018 and 2019, so the data do not show what happened in every individual year.\nThis is a descriptive comparison of published estimates, not a test of statistical significance. The indicator measures reported eating frequency rather than portion sizes or overall diet quality, and this analysis does not establish why the estimates changed."
+  }
+]

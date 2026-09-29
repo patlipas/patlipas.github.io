@@ -53,7 +53,7 @@ and available years before selecting the observations for this analysis.
 ```{python}
 #| label: load-nutrition-data
 
-nutrition_raw = pd.read_csv("data/fruit_vegetable_canada.csv")
+nutrition_raw = pd.read_csv("../../data/fruit_vegetable_canada.csv")
 
 nutrition_raw
 ```

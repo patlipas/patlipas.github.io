@@ -56,7 +56,7 @@ available observations.
 #| label: load-nutrition-data-r
 
 nutrition_raw <- read_csv(
-  "data/fruit_vegetable_canada.csv",
+  "../../data/fruit_vegetable_canada.csv",
   show_col_types = FALSE
 )
 
